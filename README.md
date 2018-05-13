@@ -18,6 +18,15 @@ cd $HOME/git/abee/app-abee-movil && npm run ionic:serve
 
 ```
 
+## ajuste para trabajar localmente editar el archivo en la linea 7 por la linea 6
+
+$HOME/git/abee/app-abee-movil/src/providers/general.service.ts
+```
+   private urlBaseApi = "http://localhost:5000";
+// private urlBaseApi = "https://api-abee.herokuapp.com";
+
+```
+
 # Requerimientos
 
 A nivel de la App
