@@ -93,20 +93,21 @@
       </ion-card>
       <div>
         <ngx-datatable
-          [sortType]="'multi'"
+          class="material"
           [headerHeight]="50"
           [rowHeight]="50"
           [rows]="rows"
-          [columns]="columns"
+          [columnMode]="'standard'"
           [columnMode]="'force'"
           [limit]="10"
           [scrollbarV]="true"
           [scrollbarH]="true"
           (activate)="onActivate($event)">
-          <ngx-datatable-column prop="id_producto"></ngx-datatable-column>
-          <ngx-datatable-column name="nombre"></ngx-datatable-column>
-          <ngx-datatable-column name="precio"></ngx-datatable-column>
-          <ngx-datatable-column name="Cantidad" prop="cantidad">
+          <ngx-datatable-column prop="id_producto" name="Id" [width]="40"></ngx-datatable-column>
+          <ngx-datatable-column name="Nombre" [width]="100"></ngx-datatable-column>
+          <ngx-datatable-column name="Descripcion" [width]="500"></ngx-datatable-column>
+          <ngx-datatable-column name="Precio"></ngx-datatable-column>
+          <ngx-datatable-column name="Cantidad" prop="cantidad" [width]="100">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group" let-rowHeight="rowHeight">           
               <input autofocus
                 (blur)="updateValue($event, 'cantidad', rowIndex)"
@@ -116,7 +117,7 @@
                 style="background: #faebd700;margin: -11px;"/>
             </ng-template>                
           </ngx-datatable-column>
-          <ngx-datatable-column name="Total" sortable="false" prop="total">
+          <ngx-datatable-column name="Total" sortable="false" prop="total" [width]="100">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                <input autofocus
                 type="text" 
@@ -125,7 +126,7 @@
                 style="border:none;background: #faebd700;margin: -11px;"/>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="" sortable="false" prop="id_producto">
+          <ngx-datatable-column name="" sortable="false" prop="id_producto" [width]="100">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
               <button ion-button (click)="quitarProducto(row)" style="background: #ff002dcc; border-radius: 33%;color: aliceblue; width: 10%; height: 25%;">
                 <ion-icon name="close"></ion-icon>

@@ -51,6 +51,7 @@ export class HomePage {
   	this.columns = [
         { prop: 'id_producto' },
         { name: 'nombre' },
+        { name: 'descripcion' },
         { name: 'precio' },
         { prop: 'cantidad' },
         { prop: 'total' }
@@ -89,6 +90,7 @@ export class HomePage {
   		this.rows.push({
   			id_producto: producto.id_producto,
   			nombre: producto.nombre,
+        descripcion: producto.descripcion,
   			precio: producto.precio,
   			cantidad:1,
   			total: producto.precio
@@ -316,6 +318,7 @@ export class HomePage {
     } else {
     	this.serviApp.activarProgreso(false);
     	this.serviApp.alecrtMsg('Registrado exitosamente'); 
+      this.segmento_registro_producto = 'seg_productos';
       this.rows =[];
     }
  }
