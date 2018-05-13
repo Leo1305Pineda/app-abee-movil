@@ -4,7 +4,7 @@ app-abee-movil aplicacion demo para facturacion digital
 Esta aplicacion esta implementada con el consumo desde una api con despliegue en heroku
 ir a [https://github.com/Leo1305Pineda/api-abee](https://github.com/Leo1305Pineda/api-abee)
 
-# intalacion y puesta en marcha
+# instalacion y puesta en marcha
 
 ```
 mkdir $HOME/git && cd $HOME/git
