@@ -4,6 +4,20 @@ app-abee-movil aplicacion demo para facturacion digital
 Esta aplicacion esta implementada con el consumo desde una api con despliegue en heroku
 ir a [https://github.com/Leo1305Pineda/api-abee](https://github.com/Leo1305Pineda/api-abee)
 
+# intalacion y puesta en marcha
+
+```
+mkdir $HOME/git && cd $HOME/git
+mkdir $HOME/git/abee && cd $HOME/git/abee
+git clone https://github.com/Leo1305Pineda/api-abee.git
+git clone https://github.com/Leo1305Pineda/app-abee-movil.git
+cd $HOME/git/abee/api-abee && npm install
+cd $HOME/git/abee/app-abee-movil && npm install
+cd $HOME/git/abee/api-abee && npm run start
+cd $HOME/git/abee/app-abee-movil && npm run ionic:serve
+
+```
+
 # Requerimientos
 
 A nivel de la App
