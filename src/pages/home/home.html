@@ -1,0 +1,171 @@
+<ion-header>
+  <ion-navbar color="primary">
+  	<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Factura Digital
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <div>
+    <ion-segment [(ngModel)]="segmento_registro_producto" >
+      <ion-segment-button  value="seg_productos" (click)="getProductos()">Productos</ion-segment-button>
+      <ion-segment-button value="seg_registro" (click)="showSegment()" >Registro</ion-segment-button>
+    </ion-segment>
+  </div>
+  <div [ngSwitch]="segmento_registro_producto">
+    <ion-list *ngSwitchCase="'seg_productos'">
+      <ion-item *ngFor="let producto of productos" >
+        <div>
+          <h2 align="center" text-wrap>{{ producto.nombre }}</h2>
+          <ion-item>
+            <ion-thumbnail item-start align-items-center>
+              <img src="{{ producto.url_imagen }}" >
+            </ion-thumbnail>
+            <p text-wrap>{{ producto.descripcion }}</p>
+            <ion-buttons end>
+              <button color="primary" (click)="cargarProducto(producto)" style="padding: 7%;border-radius: 33%;background-color: #7ab740;" ><ion-icon name="cart"></ion-icon></button>
+            </ion-buttons>
+          </ion-item>
+        </div>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'seg_registro'">
+      <ion-card (click)="seleccion('moneda', 'Moneda')">
+        <ion-row style="margin-left: 2%;margin-right: 4%;">
+          <ion-col col-auto align-self-start>
+            <h2>Moneda</h2>
+          </ion-col>
+          <ion-col ></ion-col>
+          <ion-col col-auto align-self-end>
+            {{ registro.moneda.nombre }} {{ registro.moneda.simbolo }}
+          </ion-col>
+          <ion-thumbnail style="margin: auto;">
+            <ion-icon name="arrow-dropdown"></ion-icon>
+          </ion-thumbnail>
+        </ion-row>
+      </ion-card>
+      <ion-card (click)="seleccion('cliente', 'Cliente')">
+        <ion-row style="margin-left: 2%;margin-right: 4%;">
+          <ion-col col-auto align-self-start>
+            <h2>Cliente</h2>
+          </ion-col>
+          <ion-col ></ion-col>
+          <ion-col col-auto align-self-end>
+            {{ registro.cliente.nombres }}
+          </ion-col>
+          <ion-thumbnail style="margin: auto;">
+            <ion-icon name="arrow-dropdown"></ion-icon>
+          </ion-thumbnail>
+        </ion-row>
+      </ion-card>
+      <ion-card>
+        <ion-item>
+          <ion-label>Contingencia</ion-label>
+          <ion-checkbox value="true" (click)="checkBox('contingencia')"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-label>Exoneracion</ion-label>
+          <ion-checkbox value="true" (click)="checkBox('exoneracion')"></ion-checkbox>
+        </ion-item>
+      </ion-card>
+      <ion-card>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>Credito</ion-label>
+              <ion-checkbox value="true" (click)="checkBox('credito')"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="registro.credito == 'si'">
+          <ion-col>
+            <ion-item>
+              <ion-input [(ngModel)]="registro.dias" type="text"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col style="margin: auto;">
+            <h3> Dias</h3>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <div>
+        <ngx-datatable
+          [sortType]="'multi'"
+          [headerHeight]="50"
+          [rowHeight]="50"
+          [rows]="rows"
+          [columns]="columns"
+          [columnMode]="'force'"
+          [limit]="10"
+          [scrollbarV]="true"
+          [scrollbarH]="true"
+          (activate)="onActivate($event)">
+          <ngx-datatable-column prop="id_producto"></ngx-datatable-column>
+          <ngx-datatable-column name="nombre"></ngx-datatable-column>
+          <ngx-datatable-column name="precio"></ngx-datatable-column>
+          <ngx-datatable-column name="Cantidad" prop="cantidad">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group" let-rowHeight="rowHeight">           
+              <input autofocus
+                (blur)="updateValue($event, 'cantidad', rowIndex)"
+                type="text" 
+                name="cantidad" 
+                [value]="value" 
+                style="background: #faebd700;margin: -11px;"/>
+            </ng-template>                
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Total" sortable="false" prop="total">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+               <input autofocus
+                type="text" 
+                name="total" 
+                [value]="value" 
+                style="border:none;background: #faebd700;margin: -11px;"/>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="" sortable="false" prop="id_producto">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <button ion-button (click)="quitarProducto(row)" style="background: #ff002dcc; border-radius: 33%;color: aliceblue; width: 10%; height: 25%;">
+                <ion-icon name="close"></ion-icon>
+              </button>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+      <ion-card>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-input [(ngModel)]="registro.descuento" type="text" (ionChange)="calcutarTotales()"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-label>% Descuento</ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <ion-card ion-row>
+        <ion-item ion-col col-12>
+          <ion-label floating>Observaciones</ion-label>
+          <ion-textarea [(ngModel)]="registro.observaciones" name="observaciones"></ion-textarea>
+        </ion-item>
+      </ion-card>
+      <ion-list>
+        <ion-item>
+          <h2>SubTotal: {{subTotal}} {{registro.moneda.simbolo}}</h2>
+        </ion-item>
+        <ion-item>
+          <h2>Descuento: {{descuentoTotal}} {{registro.moneda.simbolo}}</h2>
+        </ion-item>
+        <ion-item>
+          <h2>Total: {{total}} {{registro.moneda.simbolo}}</h2>
+        </ion-item>
+        <ion-item>
+          <button ion-button color="primary" block clear (click)="registrar()" >Completar Venta</button>
+        </ion-item>
+      </ion-list>
+    </ion-list>
+  </div>  
+</ion-content>
